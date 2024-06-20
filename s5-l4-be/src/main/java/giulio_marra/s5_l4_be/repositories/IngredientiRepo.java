@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface IngredientiRepo extends JpaRepository<Ingredienti, Long> {
-    Optional<Ingredienti> findByNome(String nome);
+    Optional<Ingredienti> findByIngrediente(String ingrediente);
 }

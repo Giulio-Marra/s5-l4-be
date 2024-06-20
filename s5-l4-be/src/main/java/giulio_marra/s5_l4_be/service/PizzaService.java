@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PizzaService {
@@ -27,13 +28,12 @@ public class PizzaService {
 
         List<Ingredienti> ingredientiSpecifici = new ArrayList<>();
         for (Ingredienti ingrediente : pizza.getIngredienti()) {
-            Ingredienti ingredientiTrovati = ingredientiRepo.findByNome(ingrediente.getNome());
-            if (ingredientiTrovati != null) {
-                ingredientiSpecifici.add(ingredientiTrovati);
-            } else {
-                throw new RuntimeException("Ingrediente non trovato con nome: " + ingrediente.getNome());
-            }
+            Optional<Ingredienti> optionalIngredienti = ingredientiRepo.findByIngrediente(ingrediente.getIngrediente());
+
+            ingredientiSpecifici.add(optionalIngredienti.get());
+
         }
+        pizza.setIngredienti(ingredientiSpecifici);
 
         pizzaRepo.save(pizza);
         System.out.println("La pizza " + pizza.getNome() + " è stata salvata nel database");
